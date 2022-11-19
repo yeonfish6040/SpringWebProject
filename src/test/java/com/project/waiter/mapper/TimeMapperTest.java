@@ -1,8 +1,7 @@
-//package com.project.spring_web_project.mapper;
+package com.project.waiter.mapper;
 
-
-import com.project.spring_web_project.DevController.logger;
-import com.project.spring_web_project.mappers.TimeMapper;
+import com.project.waiter.DevController.logger;
+import com.project.waiter.mappers.TimeMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.project.spring_web_project.mappers;
+package com.project.waiter.mappers;
 
 import org.apache.ibatis.annotations.Mapper;
 

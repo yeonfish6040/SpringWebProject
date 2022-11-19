@@ -1,4 +1,4 @@
-package com.project.spring_web_project;
+package com.project.waiter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

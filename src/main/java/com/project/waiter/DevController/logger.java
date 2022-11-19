@@ -1,10 +1,8 @@
-package com.project.spring_web_project.DevController;
+package com.project.waiter.DevController;
 
-import com.project.spring_web_project.util.Colors;
+import com.project.waiter.util.Colors;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-
-import java.awt.*;
 
 @Slf4j
 @Getter

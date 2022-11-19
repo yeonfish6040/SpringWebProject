@@ -1,6 +1,4 @@
-package com.project.spring_web_project.util.sql;
-
-import com.project.spring_web_project.util.sql.sqlResults;
+package com.project.waiter.util.sql;
 
 import java.sql.*;
 

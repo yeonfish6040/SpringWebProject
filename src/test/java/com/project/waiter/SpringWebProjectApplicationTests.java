@@ -1,4 +1,4 @@
-package com.project.spring_web_project;
+package com.project.waiter;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.project.spring_web_project.util.sql;
+package com.project.waiter.util.sql;
 
 import java.util.List;
 import java.util.regex.Matcher;

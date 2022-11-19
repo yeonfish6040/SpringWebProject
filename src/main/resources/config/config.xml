@@ -3,5 +3,8 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
+        <typeAlias alias="restaurantVO" type="com.project.waiter.beans.vo.RestaurantVO"></typeAlias>
+        <typeAlias alias="waitsVO" type="com.project.waiter.beans.vo.WaitsVO"></typeAlias>
+        <typeAlias alias="userVO" type="com.project.waiter.beans.vo.UserVO"></typeAlias>
     </typeAliases>
 </configuration>

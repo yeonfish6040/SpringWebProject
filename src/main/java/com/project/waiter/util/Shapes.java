@@ -1,4 +1,4 @@
-package com.project.spring_web_project.util;
+package com.project.waiter.util;
 
 public class Shapes {
 	public static String S_BOLD = "\033[1m";

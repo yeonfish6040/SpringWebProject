@@ -1,4 +1,4 @@
-package com.project.spring_web_project.util;
+package com.project.waiter.util;
 
 import java.util.Arrays;
 

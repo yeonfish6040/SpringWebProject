@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Waiter</title>
+
+    <!--  bootstrap  -->
+    <link rel="stylesheet" href="css/bootstrap.css">
+
+    <!--  css  -->
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <div class="row header">
+        <span class="col-6 title">Waiter - 웨이터</span>
+        <span class="col-6 user" th:unless="${user}">
+            <span class="input-group input-group-sm login_form">
+                <span class="input-group-addon" id="info_id">
+                    id
+                </span>
+                <input type="text" class="form-control" id="id" name="id" aria-describedby="info_id">
+            </span>
+        </span>
+        <span class="col-6 user" th:if="${user}" th:text="안녕하세요 ${user}님"></span>
+    </div>
+    <div class="body"></div>
+    <div class="footer"></div>
+</body>
+</html>

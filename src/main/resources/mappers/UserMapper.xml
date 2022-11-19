@@ -3,7 +3,10 @@
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.project.waiter.mappers.TimeMapper">
-	<select id="getTime" resultType="string">
-		select UNIX_TIMESTAMP()
+	<select id="get" resultType="userVO">
+		select * from users where `phone` like ${phone}
 	</select>
+	<insert id="add" parameterType="userVO">
+		insert into users(`phone`, `uuid`) VALUES(${phone}, #{uuid})
+	</insert>
 </mapper>

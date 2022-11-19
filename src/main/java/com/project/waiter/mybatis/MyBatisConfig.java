@@ -1,4 +1,4 @@
-package com.project.spring_web_project.mybatis;
+package com.project.waiter.mybatis;
 
 import java.io.IOException;
 
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration  // 설정하는 클래스
 @RequiredArgsConstructor
-@MapperScan("com.project.spring_web_project.mappers")
+@MapperScan("com.project.waiter.mappers")
 public class MyBatisConfig {
     // 커넥션 풀 및 MyBatis에 필요한 요소를 메모리에 할당 및 관리, xml과 java연동에 필요한 경로 관리
     private final ApplicationContext applicationContext;
