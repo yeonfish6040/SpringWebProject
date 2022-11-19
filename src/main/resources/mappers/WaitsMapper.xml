@@ -2,11 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
-<mapper namespace="com.project.waiter.mappers.TimeMapper">
+<mapper namespace="com.project.waiter.mappers.WaitsMapper">
 	<select id="get" resultType="waitsVO">
 		select * from waits where `r_uuid` like #{r_uuid}
 	</select>
 	<insert id="add" parameterType="waitsVO">
 		insert into waits(`uuid`, `r_uuid`, `waitNum`) VALUES(#{uuid}, #{r_uuid}, ${waitNum})
 	</insert>
+	<delete id="delete">
+		delete from waits where `uuid` like #{uuid}
+	</delete>
 </mapper>

@@ -61,7 +61,7 @@ public class MyBatisConfig {
             SqlSessionFactory factory = sqlSessionFactoryBean.getObject();
 
             // 카멜 표기법으로 자동 변경
-            factory.getConfiguration().setMapUnderscoreToCamelCase(true);
+            factory.getConfiguration().setMapUnderscoreToCamelCase(false);
 
             return factory;
         }

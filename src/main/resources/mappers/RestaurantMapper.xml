@@ -4,12 +4,12 @@
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.project.waiter.mappers.RestaurantMapper">
 	<select id="getList" resultType="restaurantVO">
-		select * from restaurant
+		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2 from restaurant a order by dist1 asc, dist2 asc limit ${num}
 	</select>
 	<select id="get" parameterType="String" resultType="restaurantVO">
-		select * from restaurant where `uuid` like ${uuid}
+		select * from restaurant where `uuid` like #{uuid}
 	</select>
 	<insert id="add" parameterType="restaurantVO">
-		insert into restaurant(`uuid`, `name`, `location`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, #{location}, ${call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
+		insert into restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, ${call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
 	</insert>
 </mapper>

@@ -10,13 +10,18 @@ public class logger {
     private boolean logging = true;
 
     private boolean withClass = true;
+    private boolean isTest = false;
 
     public logger() {
 
     }
 
     public logger(boolean withClass) {
-        this.withClass = false;
+        this.withClass = withClass;
+    }
+    public logger(boolean withClass, boolean isTest) {
+        this.withClass = withClass;
+        this.isTest = isTest;
     }
 
     public boolean doLog() {

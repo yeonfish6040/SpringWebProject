@@ -9,4 +9,5 @@ import java.util.List;
 public interface WaitsMapper {
     public List<WaitsVO> get(String r_uuid);
     public int add(WaitsVO waitsVO);
+    public int delete(String uuid);
 }
