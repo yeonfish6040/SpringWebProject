@@ -11,6 +11,7 @@ import com.project.waiter.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -53,21 +54,29 @@ public class GeneralService implements GeneralServiceInter {
 
     @Override
     public List<RestaurantVO> getList_rest(int num, int loc1, int loc2) {
-        return null;
+        return restaurantDAO.getList(num, loc1, loc2);
     }
 
     @Override
     public int lineUp(WaitsVO waitsVO) {
-        return 0;
+        List<Integer> standing = new ArrayList<Integer>();
+        if (waitsDAO.register(waitsVO)) {
+            waitsDAO.getList(waitsVO.getR_uuid()).forEach(e -> {
+                if (e.getUuid() == waitsVO.getUuid()) {
+                    standing.add(waitsVO.getWaitNum());
+                }
+            });
+        }
+        return standing.get(0);
     }
 
     @Override
     public boolean deLineUp(String uuid) {
-        return false;
+        return waitsDAO.remove(uuid);
     }
 
     @Override
     public List<WaitsVO> get_waitList(String r_uuid) {
-        return null;
+        return waitsDAO.getList(r_uuid);
     }
 }

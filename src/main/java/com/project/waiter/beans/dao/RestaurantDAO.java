@@ -21,8 +21,8 @@ public class RestaurantDAO {
         return restaurantMapper.add(restaurantVO) > 0;
     }
 
-    public List<RestaurantVO> getList(int num, String loc) {
-        return restaurantMapper.getList(num, Integer.valueOf(loc.split("\\^|\\^")[0]), Integer.valueOf(loc.split("\\^|\\^")[1]));
+    public List<RestaurantVO> getList(int num, int loc1, int loc2) {
+        return restaurantMapper.getList(num, loc1, loc2);
     }
 
     public RestaurantVO get(String uuid) {
