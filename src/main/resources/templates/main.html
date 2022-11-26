@@ -3,20 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Waiter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!--  bootstrap  -->
     <link rel="stylesheet" href="css/bootstrap.css">
 
     <!--  css  -->
     <link rel="stylesheet" href="css/main.css">
+
+    <!--  JQuery  -->
+    <script src="/js/jquery.min.js"></script>
+
+    <!--  Cookie  -->
+    <script src="/js/jquery.cookie.js"></script>
+
+    <!--  user  -->
+    <script src="/js/main.js"></script>
+
+    <script>
+        document.onload = init()
+    </script>
 </head>
 <body>
-    <div class="header"></div>
+    <div class="header row">
+        <span class="title">Waiter</span>
+        <div class="currentPosition"></div>
+    </div>
     <div class="body">
-        <div class="container">
-
+        <div class="main">
+            <div class="container">
+                <div class="rest_lists"></div>
+            </div>
+            <div class="numBar"></div>
         </div>
     </div>
     <div class="footer"></div>
+    <div class="hidden">
+        <form action="view" id="toMap" method="GET">
+            <input type="text" name="uuid" id="uuid" hidden>
+            <input type="text" name="loc1" id="loc1" hidden>
+            <input type="text" name="loc2" id="loc2" hidden>
+        </form>
+    </div>
 </body>
 </html>

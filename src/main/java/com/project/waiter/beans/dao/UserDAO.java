@@ -19,7 +19,7 @@ public class UserDAO {
         return userMapper.add(userVO) > 0;
     }
 
-    public UserVO get(int phone) {
+    public UserVO get(String phone) {
         return userMapper.get(phone);
     }
 }

@@ -31,7 +31,7 @@ public class GeneralService implements GeneralServiceInter {
     WaitsDAO waitsDAO;
 
     @Override
-    public UserVO get_user(int phone) {
+    public UserVO get_user(String phone) {
         UserVO user = userDAO.get(phone);
         if (user == null) {
             UserVO register = new UserVO();
@@ -53,7 +53,7 @@ public class GeneralService implements GeneralServiceInter {
     }
 
     @Override
-    public List<RestaurantVO> getList_rest(int num, int loc1, int loc2) {
+    public List<RestaurantVO> getList_rest(int num, double loc1, double loc2) {
         return restaurantDAO.getList(num, loc1, loc2);
     }
 

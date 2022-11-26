@@ -1,7 +1,110 @@
-.header {
-    background-color: #ff001d;
+@import "fonts.css";
+
+body {
+    font-family: "Dongle-Regular";
+    background-color: rgb(249,249,249);
 }
 
-.header .user {
+.header {
+    font-size: 4em;
+
+    padding: 5px;
+
+    height: 100px;
+
+    text-align: center;
+
+    background-color: rgb(200,200,200);
+}
+
+.main {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    margin-top: 10%;
+
+    height: 75%;
+    width: 60%;
+    border: 1px solid gray;
+
+    border-top: none;
+    border-bottom: none;
+
+    border-radius: 20px;
+
+    padding: 2em;
+}
+
+.rest_img {
+    height: 9%;
+    width: 16%;
+
+    border-radius: 10px;
+}
+
+.numBar {
+    margin: auto;
+
+    text-align: center;
+    justify-content: space-between;
+
+    width: 50%;
+}
+.icon.num {
+    color: gray;
+
+    cursor: pointer;
+
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.rest .name {
+    font-size: 2em;
+
+    margin-bottom: 0px;
+
     text-align: right;
+}
+
+.rest_lists {
+    overflow: scroll;
+
+    height: 100%;
+}
+
+.rest .call {
+    vertical-align: bottom;
+
+    text-align: right;
+
+    font-size: 2em;
+}
+
+.rest .info {
+    display: inline-block;
+    text-align: right;
+
+    width: 80%;
+}
+.rest .info .name {
+    position: relative;
+
+    right: 0px;
+
+    cursor: pointer;
+}
+
+.currentPosition {
+    text-align: right;
+
+    font-size: 1rem;
 }

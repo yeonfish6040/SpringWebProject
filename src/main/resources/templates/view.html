@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurants</title>
+    <script>
+        lat = [[${loc1}]]
+        lng = [[${loc2}]]
+        list = JSON.parse('[(${list})]')
+        rest = JSON.parse('[(${rest})]')
+        uuid = "[[${uuid}]]"
+        console.log(list, rest)
+    </script>
+    <script src="/js/view.js"></script>
+
+    <link rel="stylesheet" href="/css/view.css">
+
+    <!--  BootStrap  -->
+    <link rel="stylesheet" href="/css/bootstrap.css">
+
+    <!--  jQuery  -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+
+</head>
+<body>
+    <div class="form input-group">
+        <input type="text" class="search form-control" placeholder="검색" aria-describedby="sizing-addon1">
+        <button type="button" id="sizing-addon1" class="btn btn-secondary">검색</button>
+    </div>
+    <div class="info"></div>
+    <div id="map" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px"></div>
+</body>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBESoHU6Lz8PM2BLhBhTAD786R_5OdtlTE&callback=initMap"></script>
+
+</html>

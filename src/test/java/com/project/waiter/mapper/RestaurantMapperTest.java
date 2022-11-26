@@ -22,7 +22,7 @@ public class RestaurantMapperTest {
         restaurantVO.setUuid("a");
         restaurantVO.setName("a");
         restaurantVO.setInfo("a");
-        restaurantVO.setCall(1);
+        restaurantVO.setCall("1");
         restaurantVO.setWaits(1);
         restaurantVO.setC_wait_time(1);
         restaurantVO.setLocation1(1);

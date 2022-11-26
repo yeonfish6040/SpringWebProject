@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class UserVO {
-    private int phone;
+    private String phone;
     private String uuid;
+    private boolean verified;
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Service
 public interface GeneralServiceInter {
-    public UserVO get_user(int phone);
+    public UserVO get_user(String phone);
     public RestaurantVO get_rest(String uuid);
-    public List<RestaurantVO> getList_rest(int num, int loc1, int loc2);
+    public List<RestaurantVO> getList_rest(int num, double loc1, double loc2);
     public int lineUp(WaitsVO waitsVO);
     public boolean deLineUp(String uuid);
     public List<WaitsVO> get_waitList(String r_uuid);

@@ -20,13 +20,13 @@ public class UserMapperTest {
     public void insert() {
         UserVO userVO = new UserVO();
         userVO.setUuid("a");
-        userVO.setPhone(1);
+        userVO.setPhone("1");
         userMapper.add(userVO);
     }
 
     @Test
     @Disabled
     public void get() {
-        log.info(userMapper.get(1));
+        log.info(userMapper.get("1"));
     }
 }

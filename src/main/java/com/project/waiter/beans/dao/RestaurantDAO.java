@@ -21,7 +21,7 @@ public class RestaurantDAO {
         return restaurantMapper.add(restaurantVO) > 0;
     }
 
-    public List<RestaurantVO> getList(int num, int loc1, int loc2) {
+    public List<RestaurantVO> getList(int num, double loc1, double loc2) {
         return restaurantMapper.getList(num, loc1, loc2);
     }
 

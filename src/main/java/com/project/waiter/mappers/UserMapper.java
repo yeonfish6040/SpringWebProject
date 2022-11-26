@@ -5,6 +5,6 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
-    public UserVO get(int phone);
+    public UserVO get(String phone);
     public int add(UserVO userVO);
 }
