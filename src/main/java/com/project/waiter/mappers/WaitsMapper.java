@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface WaitsMapper {
     public List<WaitsVO> get(String r_uuid);
+    public WaitsVO getMe(String uuid);
     public int add(WaitsVO waitsVO);
     public int delete(String uuid);
 }

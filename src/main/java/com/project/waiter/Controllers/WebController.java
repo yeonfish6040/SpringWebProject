@@ -44,8 +44,48 @@ public class WebController {
         model.addAttribute("uuid", rest.getUuid());
         model.addAttribute("loc1", loc1);
         model.addAttribute("loc2", loc2);
+        model.addAttribute("msg", "");
 
         return "view";
+    }
+
+    @GetMapping("search")
+    public String search(@RequestParam("q") String query, Model model) throws JsonProcessingException {
+
+        StringBuffer queryString = new StringBuffer();
+
+        for (String i : query.split(" ")) {
+            queryString.append(i+"|");
+        }
+
+        List<RestaurantVO> rests = generalService.search(20, queryString.toString().substring(0, queryString.toString().lastIndexOf("|")));
+        RestaurantVO rest;
+        String msg;
+        if (rests.size() == 0) {
+            msg = "검색 결과가 없습니다.";
+            rest = new RestaurantVO();
+        }else {
+            rest = rests.get(0);
+            msg = String.valueOf(rests.size())+"개의 검색결과를 찾았습니다.";
+        }
+
+        log.info(rests);
+        log.info(rest);
+
+        ObjectMapper mapper = new ObjectMapper();
+        model.addAttribute("list", mapper.writeValueAsString(rests));
+        model.addAttribute("rest", mapper.writeValueAsString(rest));
+        model.addAttribute("uuid", rest.getUuid());
+        model.addAttribute("loc1", rest.getLocation1());
+        model.addAttribute("loc2", rest.getLocation2());
+        model.addAttribute("msg", msg);
+
+        return "view";
+    }
+
+    @GetMapping("book")
+    public String book() {
+        return "";
     }
 
     @GetMapping("")

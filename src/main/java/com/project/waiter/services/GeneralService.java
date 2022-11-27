@@ -8,11 +8,13 @@ import com.project.waiter.beans.vo.RestaurantVO;
 import com.project.waiter.beans.vo.UserVO;
 import com.project.waiter.beans.vo.WaitsVO;
 import com.project.waiter.util.UUID;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class GeneralService implements GeneralServiceInter {
@@ -58,16 +60,20 @@ public class GeneralService implements GeneralServiceInter {
     }
 
     @Override
+    public List<RestaurantVO> search(int num, String name) {
+        name = name.replaceAll("([/\\*?-_~'\",.:;%^&$()])", "\\\\$1");
+        return restaurantDAO.search(num, name);
+    }
+
+    @Override
     public int lineUp(WaitsVO waitsVO) {
-        List<Integer> standing = new ArrayList<Integer>();
+        if (waitsDAO.get(waitsVO.getUuid()).getR_uuid().equals(waitsVO.getR_uuid()))
+            return -2;
         if (waitsDAO.register(waitsVO)) {
-            waitsDAO.getList(waitsVO.getR_uuid()).forEach(e -> {
-                if (e.getUuid() == waitsVO.getUuid()) {
-                    standing.add(waitsVO.getWaitNum());
-                }
-            });
+            return waitsDAO.get(waitsVO.getUuid()).getWaitNum();
+        }else {
+            return -1;
         }
-        return standing.get(0);
     }
 
     @Override

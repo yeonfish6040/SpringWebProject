@@ -1,0 +1,21 @@
+.info {
+    text-align: right;
+}
+
+.info_child {
+    position: relative;
+    left: calc(100% - 300px);
+
+    height: 50px;
+    width: 300px;
+
+    background-color: #f7ffc0;
+    border: 1px solid #6c6c6c;
+
+    border-radius: 5px 5px 5px 5px;
+
+    font-family: "Dongle-Regular";
+    font-size: 1rem;
+
+    overflow: scroll;
+}

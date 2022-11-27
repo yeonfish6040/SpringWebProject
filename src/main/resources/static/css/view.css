@@ -4,26 +4,11 @@
     z-index: -1;
 }
 
-.info {
-    text-align: right;
-}
-
-.info_child {
-    position: absolute;
-    right: 0px;
-
-    height: 50px;
-    width: 300px;
-
-    background-color: #f7ffc0;
-    border: 1px solid #6c6c6c;
-
-    border-radius: 5px 5px 5px 5px;
-
-    font-family: "Dongle-Regular";
-    font-size: 1rem;
-}
-
 .search {
     height: 40px;
+}
+
+#phone, #verify {
+    display: inline-block;
+    width: 200px;
 }

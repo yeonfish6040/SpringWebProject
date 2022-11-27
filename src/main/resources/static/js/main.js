@@ -18,14 +18,11 @@ function getRestaurants(pos) {
     $("#loc1").val(lat);
     $("#loc2").val(lon);
 
-    currentAddress = new XMLHttpRequest()
-    currentAddress.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&sensor=true&key=AIzaSyAexLg6oFaOmd99G_jytyHpmlKi1pmnxwg")
-    currentAddress.onload = (e) => {
+    getAddr(lat, lon, (e) => {
         res = JSON.parse(e.currentTarget.response)
         document.title = "Waiter - "+res.results[4].address_components[0].long_name
         $(".currentPosition").text(res.results[4].formatted_address)
-    }
-    currentAddress.send()
+    })
 
 
     getRest = new XMLHttpRequest();

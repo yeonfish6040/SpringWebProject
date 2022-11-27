@@ -27,5 +27,9 @@ public class WaitsDAO {
         return waitsMapper.get(r_uuid);
     }
 
+    public WaitsVO get(String uuid) {
+        return waitsMapper.getMe(uuid);
+    }
+
     public boolean remove(String uuid) { return waitsMapper.delete(uuid) > 0; }
 }

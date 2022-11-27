@@ -25,6 +25,10 @@ public class RestaurantDAO {
         return restaurantMapper.getList(num, loc1, loc2);
     }
 
+    public List<RestaurantVO> search(int num, String name) {
+        return restaurantMapper.search(num, name);
+    }
+
     public RestaurantVO get(String uuid) {
         return restaurantMapper.get(uuid);
     }

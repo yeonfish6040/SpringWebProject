@@ -6,6 +6,9 @@
 	<select id="get" resultType="waitsVO">
 		select * from waits where `r_uuid` like #{r_uuid}
 	</select>
+	<select id="getMe" resultType="waitsVO">
+		select * from waits where `uuid` like #{uuid}
+	</select>
 	<insert id="add" parameterType="waitsVO">
 		insert into waits(`uuid`, `r_uuid`, `waitNum`) VALUES(#{uuid}, #{r_uuid}, ${waitNum})
 	</insert>

@@ -33,4 +33,7 @@ build/
 .vscode/
 
 ## APIKEY
+# message send, etc
 *.apiKey
+# etc
+secret

@@ -8,6 +8,7 @@ import java.util.List;
 @Mapper
 public interface RestaurantMapper {
     public List<RestaurantVO> getList(int num, double loc1, double loc2);
+    public List<RestaurantVO> search(int num, String query);
     public RestaurantVO get(String uuid);
     public int add(RestaurantVO restaurantVO);
 }
