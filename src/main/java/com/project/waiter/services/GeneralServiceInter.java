@@ -14,6 +14,7 @@ public interface GeneralServiceInter {
     public List<RestaurantVO> getList_rest(int num, double loc1, double loc2);
     public List<RestaurantVO> search(int num, String name);
     public int lineUp(WaitsVO waitsVO);
-    public boolean deLineUp(String uuid);
+    public boolean deLineUp(String uuid, String r_uuid);
     public List<WaitsVO> get_waitList(String r_uuid);
+    public int cSts(String uuid, int type);
 }

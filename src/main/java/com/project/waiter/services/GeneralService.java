@@ -67,22 +67,33 @@ public class GeneralService implements GeneralServiceInter {
 
     @Override
     public int lineUp(WaitsVO waitsVO) {
-        if (waitsDAO.get(waitsVO.getUuid()).getR_uuid().equals(waitsVO.getR_uuid()))
+        if (waitsDAO.get(waitsVO).getR_uuid().equals(waitsVO.getR_uuid()))
             return -2;
         if (waitsDAO.register(waitsVO)) {
-            return waitsDAO.get(waitsVO.getUuid()).getWaitNum();
+            return waitsDAO.get(waitsVO).getWaitNum();
         }else {
             return -1;
         }
     }
 
     @Override
-    public boolean deLineUp(String uuid) {
-        return waitsDAO.remove(uuid);
+    public boolean deLineUp(String uuid, String r_uuid) {
+        WaitsVO waitsVO = new WaitsVO();
+
+        waitsVO.setUuid(uuid);
+        waitsVO.setR_uuid(r_uuid);
+
+        return waitsDAO.remove(waitsVO);
     }
 
     @Override
     public List<WaitsVO> get_waitList(String r_uuid) {
         return waitsDAO.getList(r_uuid);
+    }
+
+    @Override
+    public int cSts(String uuid, int type) {
+        log.info(uuid);
+        return restaurantDAO.cSts(uuid, type);
     }
 }

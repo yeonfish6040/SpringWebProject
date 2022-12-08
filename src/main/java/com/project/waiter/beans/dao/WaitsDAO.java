@@ -2,6 +2,7 @@ package com.project.waiter.beans.dao;
 
 import com.project.waiter.DevController.logger;
 import com.project.waiter.beans.vo.RestaurantVO;
+import com.project.waiter.beans.vo.UserVO;
 import com.project.waiter.beans.vo.WaitsVO;
 import com.project.waiter.mappers.RestaurantMapper;
 import com.project.waiter.mappers.WaitsMapper;
@@ -27,9 +28,18 @@ public class WaitsDAO {
         return waitsMapper.get(r_uuid);
     }
 
-    public WaitsVO get(String uuid) {
-        return waitsMapper.getMe(uuid);
+    public WaitsVO get(WaitsVO waitsVO) {
+        WaitsVO me = waitsMapper.getMe(waitsVO);
+        if (me == null){
+            WaitsVO nullVO = new WaitsVO();
+            nullVO.setUuid("NULL");
+            nullVO.setR_uuid("NULL");
+            nullVO.setWaitNum(0);
+            return nullVO;
+        }else {
+            return me;
+        }
     }
 
-    public boolean remove(String uuid) { return waitsMapper.delete(uuid) > 0; }
+    public boolean remove(WaitsVO waitsVO) { return waitsMapper.delete(waitsVO) > 0; }
 }

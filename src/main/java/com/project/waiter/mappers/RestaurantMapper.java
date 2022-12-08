@@ -11,4 +11,5 @@ public interface RestaurantMapper {
     public List<RestaurantVO> search(int num, String query);
     public RestaurantVO get(String uuid);
     public int add(RestaurantVO restaurantVO);
+    public int cSts(String uuid, int type);
 }

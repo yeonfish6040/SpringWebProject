@@ -15,4 +15,7 @@
 	<insert id="add" parameterType="restaurantVO">
 		insert into restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, #{call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
 	</insert>
+	<update id="cSts">
+		UPDATE restaurant SET `active` = ${type} WHERE `uuid` LIKE #{uuid}
+	</update>
 </mapper>

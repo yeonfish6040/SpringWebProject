@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'관리 - '+${rest.name}"></title>
+
+    <script>
+        cSts = null;
+
+        uuid = "[(${uuid})]"
+        rest = JSON.parse('[(${restStr})]')
+        phone = "[[${phone}]]"
+        code = "[[${code}]]"
+        zeroCount = "[[${zeroCount}]]"
+        pass = "[[${pass}]]"
+    </script>
+
+    <!--  jQuery  -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/jquery.cookie.js"></script>
+
+    <!--  Bootstrap  -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!--  css  -->
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <!--  js  -->
+    <script src="/js/util.js"></script>
+    <script src="/js/admin/changeStatus.js"></script>
+    <script src="/js/admin/index.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            if (pass != "true") {
+                let verify = new XMLHttpRequest();
+                verify.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=true&step=2&code="+code)
+                verify.onload = (data) => {
+                    res = data.currentTarget.response
+                    if (res == "false") {
+                        history.back()
+                        location.href = "/admin/fail"
+                    }
+                }
+                verify.send()
+            }
+
+            cSts = stsTool(uuid)
+        })
+    </script>
+</head>
+<body>
+    <div class="flame">
+        <div class="window">
+            <div class="ui">a</div>
+            <div class="console">a</div>
+        </div>
+        <div class="sidebar">
+            <div class="title">제어판</div>
+            <hr>
+            <div class="active">
+                <div class="subtitle" th:if="${rest.active} == 2">Status - 영업중</div>
+                <div class="subtitle" th:if="${rest.active} == 1">Status - 쉬어가는중</div>
+                <div class="subtitle" th:if="${rest.active} == 0">Status - 영업종료</div>
+                <div class="btns">
+                    <button class="btn btn-outline-success" th:if="${rest.active} == 2" disabled>영업 시작</button>
+                    <button class="btn btn-outline-success" th:unless="${rest.active} == 2" onclick="cSts.run()">영업 시작</button>
+                    <button class="btn btn-outline-secondary" th:if="${rest.active} == 1" disabled>쉬어가는중</button>
+                    <button class="btn btn-outline-secondary" th:unless="${rest.active} == 1" onclick="cSts.idle()">쉬어가는중</button>
+                    <button class="btn btn-outline-danger" th:if="${rest.active} == 0" disabled>영업 종료</button>
+                    <button class="btn btn-outline-danger" th:unless="${rest.active} == 0"  onclick="cSts.stop()">영업 종료</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -32,4 +32,9 @@ public class RestaurantDAO {
     public RestaurantVO get(String uuid) {
         return restaurantMapper.get(uuid);
     }
+
+    public int cSts(String uuid, int type) {
+        log.info(uuid);
+        return restaurantMapper.cSts(uuid, type);
+    }
 }

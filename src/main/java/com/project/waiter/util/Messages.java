@@ -13,7 +13,8 @@ import java.util.Scanner;
 public class Messages {
     private final logger log = new logger();
 
-    public void send(String to, String from, String text) throws FileNotFoundException {
+    /** type = (SMS|LMS|MMS) */
+    public void send(String to, String from, String text, String type) throws FileNotFoundException {
 
         Scanner scIn = new Scanner(new FileInputStream("src/message.apiKey"));
 
@@ -25,7 +26,7 @@ public class Messages {
 
             params.put("to", to);
         params.put("from", from);
-        params.put("type", "SMS");
+        params.put("type", type);
         params.put("text", text);
         params.put("app_version", "test app 1.0");
 

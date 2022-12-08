@@ -72,7 +72,7 @@ function changePage(e) {
             "<div class='rest "+e.uuid+"'>" +
             "   <img src='/img/"+e.pictures+"' class='rest_img'>" +
             "   <span class='info'>" +
-            "       <div class='name'>"+e.name+"</div>" +
+            "       <div class='name' id='"+e.uuid+"'>"+e.name+"</div>" +
             "   </span>" +
             "</div>" +
             "<hr>"

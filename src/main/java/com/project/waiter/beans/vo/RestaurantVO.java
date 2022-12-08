@@ -15,17 +15,6 @@ public class RestaurantVO {
     private int waits;
     private int c_wait_time;
     private String pictures;
-
-//    @Override
-//    public String toString() {
-//        return "{'uuid': '"+uuid+"', " +
-//                "'name': '"+name+"', " +
-//                "'location1': '"+location1+"', " +
-//                "'location2': '"+location2+"', " +
-//                "'call': '"+call+"', " +
-//                "'info': '"+info+"', " +
-//                "'waits': '"+waits+"', " +
-//                "'c_wait_time': '"+c_wait_time+"', " +
-//                "'pictures': '"+pictures+"'}";
-//    }
+    private String adminPhone;
+    private int active;
 }

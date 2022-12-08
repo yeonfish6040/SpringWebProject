@@ -19,7 +19,7 @@ public class CommonExceptionAdvice {
 
         StringBuffer err = new StringBuffer();
         err.append("\n==================================ERROR OCCURRED==================================\n");
-        err.append(getCallerClassName()+"\n");
+        err.append(getCallerClassName()+" - "+e.getClass()+"\n");
         err.append("Reason: "+e.getMessage()+"\n");
         Arrays.stream(e.getStackTrace()).toList().forEach((er) -> {
             err.append(er+"\n");
