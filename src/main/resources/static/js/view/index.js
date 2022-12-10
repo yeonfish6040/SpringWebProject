@@ -23,6 +23,8 @@ function init() {
         info("내차례 알림을 받고싶으시다면,<br>알림을 허용해주시기 바랍니다.")
     }
 
+
+
 }
 
 function initMap() {
@@ -242,4 +244,12 @@ function deLineUp(uuid, r_uuid, deLineUpWindow) {
         info(res.currentTarget.responseText == "true" ? "예약이 취소되었습니다!" : "예약취소에 실패하였습니다.")
     }
     deLineUpAct.send()
+}
+
+function pauseEvent(e){
+    if(e.stopPropagation) e.stopPropagation();
+    if(e.preventDefault) e.preventDefault();
+    e.cancelBubble=true;
+    e.returnValue=false;
+    return false;
 }
