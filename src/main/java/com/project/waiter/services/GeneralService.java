@@ -53,6 +53,9 @@ public class GeneralService implements GeneralServiceInter {
     public RestaurantVO get_rest(String uuid) {
         return restaurantDAO.get(uuid);
     }
+    public RestaurantVO get_rest(String uuid, String phone) {
+        return restaurantDAO.get(uuid, phone);
+    }
 
     @Override
     public List<RestaurantVO> getList_rest(int num, double loc1, double loc2) {

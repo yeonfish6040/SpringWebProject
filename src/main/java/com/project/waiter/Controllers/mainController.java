@@ -110,7 +110,7 @@ public class mainController {
         generalService.get_waitList(uuid).forEach(e -> {
             result.append("{\"uuid\": \""+e.getUuid()+"\", \"phone\": \""+generalService.get_user(e.getUuid()).getPhone()+"\", \"waitNum\": \""+e.getWaitNum()+"\"},");
         });
-        return result.substring(0, result.length()-1)+"]";
+        return result.length() == 1 ? "[]" : result.substring(0, result.length()-1)+"]";
     }
 
     @GetMapping("do/book")
@@ -128,7 +128,7 @@ public class mainController {
     @GetMapping("do/sendNotification")
     public String send(@RequestParam("uuid") String uuid, @RequestParam("r_uuid") String r_uuid, @RequestParam("data") String data) throws IOException, ParseException {
         WaitsVO user = generalService.get_waitMe(uuid, r_uuid);
-        Resource resource = resourceLoader.getResource("classpath:static/secret/private_push");
+        Resource resource = resourceLoader.getResource("classpath:/secret/private_push");
         Scanner secret = new Scanner(resource.getFile());
         HttpUtil sendNotification = new HttpUtil();
         JSONObject param = new JSONObject();

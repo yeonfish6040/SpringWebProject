@@ -89,7 +89,7 @@ public class WebController {
         model.addAttribute("phone", phone);
         model.addAttribute("zeroCount", zeroCount);
         model.addAttribute("uuid", uuid);
-        model.addAttribute("rest", generalService.get_rest(uuid));
+        model.addAttribute("rest", generalService.get_rest(uuid, phone));
         model.addAttribute("restStr", mapper.writeValueAsString(generalService.get_rest(uuid)));
         if (req.getSession().getAttribute(sCookie.getValue()) != null) {
             if ((System.currentTimeMillis()-Long.valueOf(req.getSession().getAttribute(sCookie.getValue()).toString())) < 21600*1000) {

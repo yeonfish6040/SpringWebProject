@@ -9,6 +9,9 @@
 	<select id="get" parameterType="String" resultType="restaurantVO">
 		select * from restaurant where `uuid` like #{uuid}
 	</select>
+	<select id="get2" resultType="restaurantVO">
+		select * from restaurant where `uuid` like #{uuid} and `adminPhone` like #{phone}
+	</select>
 	<select id="search" resultType="restaurantVO">
 		select * from restaurant where name REGEXP #{query}
 	</select>

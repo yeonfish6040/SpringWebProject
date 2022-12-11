@@ -13,11 +13,10 @@
     <script>
         lat = [[${loc1}]]
         lng = [[${loc2}]]
-        list = JSON.parse('[(${list})]')
-        rest = JSON.parse('[(${rest})]')
+        list = [(${list})]
+        rest = [(${rest})]
         uuid = "[[${uuid}]]"
         feedback = "[(${msg})]"
-
         document.onreadystatechange = (e) => {
             if (document.readyState == "complete") {
                 init()
@@ -40,6 +39,16 @@
     </div>
     <div class="info"></div>
     <div id="map" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px"></div>
+    <div class="chat">
+        <div class="field">
+            <div class="title">문의</div>
+            <div class="chatText"></div>
+            <div class="form input-group chatInputField">
+                <input type="text" class="chat2Send form-control" placeholder="메시지 내용" aria-describedby="searchRun">
+                <button type="button" id="sendMsg" class="btn btn-secondary">전송</button>
+            </div>
+        </div>
+    </div>
 </body>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAKOEDg8sEA3LkM98wUtdOCFQnFH7cpIxk&callback=initMap"></script>
 

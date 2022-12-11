@@ -54,7 +54,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="console">a</div>
+            <div class="console">
+                <div class="chatText"></div>
+                <div class="form input-group chatInputField">
+                    <input type="text" class="chat2Send form-control" placeholder="메시지 내용" aria-describedby="searchRun">
+                    <button type="button" id="sendMsg" class="btn btn-secondary">전송</button>
+                </div>
+            </div>
         </div>
         <div class="sidebar">
             <div class="title">제어판</div>
@@ -63,7 +69,7 @@
                 <div class="subtitle" th:if="${rest.active} == 2">Status - 영업중</div>
                 <div class="subtitle" th:if="${rest.active} == 1">Status - 쉬어가는중</div>
                 <div class="subtitle" th:if="${rest.active} == 0">Status - 영업종료</div>
-                <div class="btns">
+                <div class="btn-group btns" role="group">
                     <button class="btn btn-outline-success" th:if="${rest.active} == 2" disabled>영업 시작</button>
                     <button class="btn btn-outline-success" th:unless="${rest.active} == 2" onclick="cSts.run()">영업 시작</button>
                     <button class="btn btn-outline-secondary" th:if="${rest.active} == 1" disabled>쉬어가는중</button>
@@ -71,6 +77,11 @@
                     <button class="btn btn-outline-danger" th:if="${rest.active} == 0" disabled>영업 종료</button>
                     <button class="btn btn-outline-danger" th:unless="${rest.active} == 0"  onclick="cSts.stop()">영업 종료</button>
                 </div>
+            </div>
+            <hr>
+            <div class="chat">
+                <div class="subtitle">문의 목록</div>
+                <div class="list"></div>
             </div>
         </div>
     </div>

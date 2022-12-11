@@ -12,3 +12,47 @@
     display: inline-block;
     width: 200px;
 }
+
+.chat {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+
+    height: 400px;
+    width: 300px;
+
+    background-color: lightcyan;
+
+    overflow: hidden;
+}
+
+.chat .title {
+    font-family: "dongle-regular";
+    font-size: 2em;
+    text-align: center;
+
+    background-color: lightgoldenrodyellow;
+
+    height: 10%;
+}
+
+.chat {
+    display: none;
+}
+
+.field {
+    height: 100%;
+}
+
+.chatText {
+    height: 80%;
+
+    overflow: scroll;
+}
+
+.chatInputField {
+    height: 10%;
+}

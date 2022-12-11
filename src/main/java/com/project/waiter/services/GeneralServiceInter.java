@@ -11,6 +11,7 @@ import java.util.List;
 public interface GeneralServiceInter {
     public UserVO get_user(String phone);
     public RestaurantVO get_rest(String uuid);
+    public RestaurantVO get_rest(String uuid, String phone);
     public List<RestaurantVO> getList_rest(int num, double loc1, double loc2);
     public List<RestaurantVO> search(int num, String name);
     public int lineUp(WaitsVO waitsVO);
