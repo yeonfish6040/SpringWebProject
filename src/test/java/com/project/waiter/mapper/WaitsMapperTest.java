@@ -34,7 +34,8 @@ public class WaitsMapperTest {
     }
 
     @Test
+    @Disabled
     public void delete() {
-        log.info(waitsMapper.delete("a"));
+//        log.info(waitsMapper.delete("a"));
     }
 }

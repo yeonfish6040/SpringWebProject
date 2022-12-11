@@ -1,5 +1,6 @@
 verifing = false
 adminClick = {}
+ws = null
 
 function init() {
     info("로딩 완료!")
@@ -23,8 +24,7 @@ function init() {
         info("내차례 알림을 받고싶으시다면,<br>알림을 허용해주시기 바랍니다.")
     }
 
-
-
+    ws = new WebSocket("ws://lyj.kr:8006")
 }
 
 function initMap() {
@@ -169,11 +169,12 @@ function book(e) {
                         info("인증 성공.")
                         verifing = false;
                         let bookRun = new XMLHttpRequest();
-                        bookRun.open("get", "/do/book?r_uuid="+uuid+"&uuid="+user_uuid)
+                        bookRun.open("get", "/do/book?r_uuid="+uuid+"&uuid="+user_uuid+"&endpoint="+subscriptionGlobal.endpoint+"&p256dh="+subscriptionGlobal.p256dh+"&auth="+subscriptionGlobal.auth)
                         bookRun.onload = (data) => {
                             res = data.currentTarget.responseText
                             if (res >= 0 && !isNaN(res)) {
                                 info("예약번호: "+res+"<br>"+"예약에 성공하셨습니다.")
+                                ws.send("evt|"+uuid+"|lineUp")
                             }else {
                                 if (res == -1) {
                                     info("예약실패<br>알 수 없는 오류로 인하야 예약에 실패하였습니다.")
@@ -242,6 +243,7 @@ function deLineUp(uuid, r_uuid, deLineUpWindow) {
     deLineUpAct.open("GET", "/do/deLineUp?uuid="+uuid+"&r_uuid="+r_uuid)
     deLineUpAct.onload = (res) => {
         info(res.currentTarget.responseText == "true" ? "예약이 취소되었습니다!" : "예약취소에 실패하였습니다.")
+        ws.send("evt|"+r_uuid+"|deLineUp")
     }
     deLineUpAct.send()
 }

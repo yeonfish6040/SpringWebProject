@@ -1,4 +1,4 @@
-@import "fonts.css";
+@import "../fonts.css";
 
 #map {
     z-index: -1;

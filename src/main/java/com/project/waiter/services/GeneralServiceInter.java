@@ -16,5 +16,6 @@ public interface GeneralServiceInter {
     public int lineUp(WaitsVO waitsVO);
     public boolean deLineUp(String uuid, String r_uuid);
     public List<WaitsVO> get_waitList(String r_uuid);
+    public WaitsVO get_waitMe(String uuid, String r_uuid);
     public int cSts(String uuid, int type);
 }

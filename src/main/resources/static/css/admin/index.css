@@ -1,4 +1,4 @@
-@import "fonts.css";
+@import "../fonts.css";
 
 * {
     font-family: "dongle-regular";
@@ -50,6 +50,8 @@
     height: 70%;
     width: 100%;
 
+    overflow: scroll;
+
     border: 1px solid black;
 }
 
@@ -62,4 +64,8 @@
     width: 100%;
 
     border: 1px solid black;
+}
+
+.in, .out {
+    width: 50%;
 }

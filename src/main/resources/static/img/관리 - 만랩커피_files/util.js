@@ -28,10 +28,13 @@ function info(e, param={time: 4000, manual: false}) {
 }
 
 function getAddr(lat, lon, callback) {
-    let currentAddress = new XMLHttpRequest()
-    currentAddress.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&sensor=true&key=AIzaSyBofS-NAW2K0X86USzrAfCHW7prkPowx1w")
-    currentAddress.onload = callback
-    currentAddress.send()
+    fetch("/secret/geocoding").then(raw => raw.text()).then(data => {
+        apiKey = data
+        let currentAddress = new XMLHttpRequest()
+        currentAddress.open("GET", "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+lon+"&sensor=true&key="+apiKey)
+        currentAddress.onload = callback
+        currentAddress.send()
+    })
 }
 
 

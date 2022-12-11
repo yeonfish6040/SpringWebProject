@@ -9,4 +9,7 @@ public class WaitsVO {
     private String uuid;
     private String r_uuid;
     private int waitNum;
+    private String endpoint;
+    private String p256dh;
+    private String auth;
 }

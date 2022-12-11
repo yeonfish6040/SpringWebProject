@@ -4,7 +4,7 @@
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.project.waiter.mappers.UserMapper">
 	<select id="get" resultType="userVO">
-		select * from users where `phone` like #{phone}
+		select * from users where `phone` like #{phone} or `uuid` like #{phone}
 	</select>
 	<insert id="add" parameterType="userVO">
 		insert into users(`phone`, `uuid`) VALUES(#{phone}, #{uuid})

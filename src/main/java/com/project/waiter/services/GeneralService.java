@@ -92,6 +92,14 @@ public class GeneralService implements GeneralServiceInter {
     }
 
     @Override
+    public WaitsVO get_waitMe(String uuid, String r_uuid) {
+        WaitsVO waitsVO = new WaitsVO();
+        waitsVO.setUuid(uuid);
+        waitsVO.setR_uuid(r_uuid);
+        return waitsDAO.get(waitsVO);
+    }
+
+    @Override
     public int cSts(String uuid, int type) {
         log.info(uuid);
         return restaurantDAO.cSts(uuid, type);

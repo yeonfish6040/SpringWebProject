@@ -23,7 +23,8 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css">
 
     <!--  css  -->
-    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/util.css">
+    <link rel="stylesheet" href="/css/admin/index.css">
 
     <!--  js  -->
     <script src="/js/util.js"></script>
@@ -31,28 +32,28 @@
     <script src="/js/admin/index.js"></script>
 
     <script>
-        $(document).ready(function () {
-            if (pass != "true") {
-                let verify = new XMLHttpRequest();
-                verify.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=true&step=2&code="+code)
-                verify.onload = (data) => {
-                    res = data.currentTarget.response
-                    if (res == "false") {
-                        history.back()
-                        location.href = "/admin/fail"
-                    }
-                }
-                verify.send()
-            }
-
-            cSts = stsTool(uuid)
-        })
+        $(document).ready(init)
     </script>
 </head>
 <body>
+    <div class="info"></div>
     <div class="flame">
         <div class="window">
-            <div class="ui">a</div>
+            <div class="ui">
+                <table class="table table-light">
+                    <thead>
+                    <tr>
+                        <td>예약번호</td>
+                        <td>전화번호</td>
+                        <td>입장</td>
+                        <td>강제 취소</td>
+                    </tr>
+                    </thead>
+                    <tbody class="list">
+
+                    </tbody>
+                </table>
+            </div>
             <div class="console">a</div>
         </div>
         <div class="sidebar">

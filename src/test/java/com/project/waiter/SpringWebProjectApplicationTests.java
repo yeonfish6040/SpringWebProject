@@ -1,6 +1,7 @@
 package com.project.waiter;
 
 import com.project.waiter.util.Messages;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -10,9 +11,10 @@ import java.io.FileNotFoundException;
 class SpringWebProjectApplicationTests {
 
     @Test
+    @Disabled
     void contextLoads() throws FileNotFoundException {
-        Messages m = new Messages();
-        m.send("01067820989", "01067820989", "hi");
+//        Messages m = new Messages();
+//        m.send("01067820989", "01067820989", "hi");
     }
 
 }

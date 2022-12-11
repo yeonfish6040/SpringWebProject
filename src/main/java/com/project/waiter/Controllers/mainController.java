@@ -1,22 +1,31 @@
 package com.project.waiter.Controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.project.waiter.DevController.logger;
 import com.project.waiter.beans.vo.WaitsVO;
 import com.project.waiter.dto.RestaurantDTO;
 import com.project.waiter.services.GeneralService;
+import com.project.waiter.util.HttpUtil;
 import com.project.waiter.util.Messages;
-import org.apache.ibatis.jdbc.Null;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 @RestController
 @RequestMapping("/")
@@ -25,6 +34,9 @@ public class mainController {
 
     @Autowired
     GeneralService generalService;
+
+    @Autowired
+    ResourceLoader resourceLoader;
 
     @GetMapping("get/restaurant/{loc1}/{loc2}")
     public List<RestaurantDTO> getRestaurant(@PathVariable("loc1") String loc1, @PathVariable("loc2") String loc2) {
@@ -61,10 +73,6 @@ public class mainController {
                 return "";
             } else if (step.equals("2")) {
                 HttpSession session = req.getSession();
-                log.info(phone);
-                log.info(session.getAttribute("verify_"+phone));
-                log.info(code);
-                log.info(encrypt(code));
                 try {
                     if (session.getAttribute("verify_"+phone).toString().equals(encrypt(code))) {
                         session.setAttribute("verify_"+phone, "");
@@ -95,11 +103,19 @@ public class mainController {
         return generalService.get_user(phone).getUuid();
     }
 
+    @GetMapping("get/bookers")
+    public String getBookers(@RequestParam("uuid") String uuid) throws JsonProcessingException {
+        StringBuffer result = new StringBuffer();
+        result.append("[");
+        generalService.get_waitList(uuid).forEach(e -> {
+            result.append("{\"uuid\": \""+e.getUuid()+"\", \"phone\": \""+generalService.get_user(e.getUuid()).getPhone()+"\", \"waitNum\": \""+e.getWaitNum()+"\"},");
+        });
+        return result.substring(0, result.length()-1)+"]";
+    }
+
     @GetMapping("do/book")
-    public String book(@RequestParam("r_uuid") String r_uuid, @RequestParam("uuid") String uuid) {
-        WaitsVO waitsVO = new WaitsVO();
-        waitsVO.setR_uuid(r_uuid);
-        waitsVO.setUuid(uuid);
+    public String book(WaitsVO waitsVO) {
+        log.info(waitsVO);
         int num = generalService.lineUp(waitsVO);
         return String.valueOf(num);
     }
@@ -107,6 +123,30 @@ public class mainController {
     @GetMapping("do/deLineUp")
     public boolean deLineUp(@RequestParam("uuid") String uuid, @RequestParam("r_uuid") String r_uuid) {
         return generalService.deLineUp(uuid, r_uuid);
+    }
+
+    @GetMapping("do/sendNotification")
+    public String send(@RequestParam("uuid") String uuid, @RequestParam("r_uuid") String r_uuid, @RequestParam("data") String data) throws IOException, ParseException {
+        WaitsVO user = generalService.get_waitMe(uuid, r_uuid);
+        Resource resource = resourceLoader.getResource("classpath:static/secret/private_push");
+        Scanner secret = new Scanner(resource.getFile());
+        HttpUtil sendNotification = new HttpUtil();
+        JSONObject param = new JSONObject();
+        JSONObject subscription = new JSONObject();
+        JSONObject keys = new JSONObject();
+        JSONObject applicationKeys = new JSONObject();
+        keys.put("p256dh", user.getP256dh());
+        keys.put("auth", user.getAuth());
+        subscription.put("keys", keys);
+        subscription.put("endpoint", user.getEndpoint());
+        subscription.put("expirationTime", "null");
+        applicationKeys.put("public", secret.next());
+        applicationKeys.put("private", secret.next());
+        param.put("data", data);
+        param.put("subscription", subscription);
+        param.put("applicationKeys", applicationKeys);
+        log.info(param.toString());
+        return sendNotification.callApi("https://web-push-codelab.glitch.me/api/send-push-msg", param);
     }
 
     @PostMapping("admin/csts")

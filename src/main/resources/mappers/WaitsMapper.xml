@@ -4,13 +4,13 @@
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.project.waiter.mappers.WaitsMapper">
 	<select id="get" resultType="waitsVO">
-		select * from waits where `r_uuid` like #{r_uuid}
+		select * from waits where `r_uuid` like #{r_uuid} order by waitNum asc
 	</select>
 	<select id="getMe" parameterType="waitsVO" resultType="waitsVO">
 		select * from waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
 	</select>
 	<insert id="add" parameterType="waitsVO">
-		insert into waits(`uuid`, `r_uuid`, `waitNum`) VALUES(#{uuid}, #{r_uuid}, ${waitNum})
+		insert into waits(`uuid`, `r_uuid`, `waitNum`, `endpoint`, `p256dh`, `auth`) VALUES(#{uuid}, #{r_uuid}, IFNULL((select max(`waitNum`) from waits a where `r_uuid` like #{r_uuid})+1, 0	), #{endpoint}, #{p256dh}, #{auth})
 	</insert>
 	<delete id="delete" parameterType="waitsVO">
 		delete from waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
