@@ -154,6 +154,11 @@ public class mainController {
         generalService.cSts(uuid, type);
     }
 
+    @GetMapping("test")
+    public String test() {
+        return "test";
+    }
+
     public String encrypt(String text) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(text.getBytes());
