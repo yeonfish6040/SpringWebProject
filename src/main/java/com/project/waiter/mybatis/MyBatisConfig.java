@@ -30,8 +30,8 @@ public class MyBatisConfig {
     // 객체명은 메서드의 이름으로 자동 생성, 직접 설정하려면 @Bean(name="객체명")으로 사용
 
     @Bean
-//    @ConfigurationProperties(prefix="spring.datasource.plain.hikari")
-	@ConfigurationProperties(prefix="spring.datasource.spy.hikari")  // 상위경로 고정
+    @ConfigurationProperties(prefix="spring.datasource.plain.hikari")
+//	@ConfigurationProperties(prefix="spring.datasource.spy.hikari")  // 상위경로 고정
     public HikariConfig hikariConfig() { return new HikariConfig(); }
     // application.properties에 작성된 JDBC datasource 정보 설정
 
