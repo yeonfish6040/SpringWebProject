@@ -4,7 +4,7 @@
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.project.waiter.mappers.RestaurantMapper">
 	<select id="getList" resultType="restaurantVO">
-		select distinct a.*, abs(a.location1 - ${loc1})as dist1, abs(a.location2 - ${loc2}) dist2 from restaurant a order by dist1 asc, dist2 asc limit ${num}
+		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2, (select count(*) from waits b where b.r_uuid=a.uuid) waits from restaurant a order by dist1 asc, dist2 asc limit ${num}
 	</select>
 	<select id="get" parameterType="String" resultType="restaurantVO">
 		select * from restaurant where `uuid` like #{uuid}

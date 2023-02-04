@@ -10,25 +10,26 @@ import org.springframework.core.io.ResourceLoader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class Messages {
     private final logger log = new logger();
 
-    private File secret = null;
+    private InputStream secret = null;
 
-    public Messages(File secret) {
+    public Messages(InputStream secret) {
         this.secret = secret;
     }
 
     /** type = (SMS|LMS|MMS) */
     public void send(String to, String from, String text, String type) throws FileNotFoundException {
 
-        Scanner scIn = new Scanner(this.secret);
+        Scanner sc = new Scanner(this.secret);
 
-        String api_key = scIn.next();
-        String api_secret = scIn.next();
+        String api_key = sc.next();
+        String api_secret = sc.next();
 
         Message coolsms = new Message(api_key, api_secret);
         HashMap<String, String> params = new HashMap<String, String>();

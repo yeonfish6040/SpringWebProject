@@ -30,7 +30,7 @@ function init() {
         info("내차례 알림을 받고싶으시다면,<br>알림을 허용해주시기 바랍니다.")
     }
 
-    ws = new WebSocket("ws://lyj.kr:8006")
+    ws = new WebSocket("wss://lyj.kr:8006")
     ws.onmessage = (e) => {
         data = e.data.split("|")
         if (data[0] == "msg") {
@@ -172,7 +172,7 @@ function book(e) {
                             $("#deLineUp_"+uuid).attr("disabled", true);
                             deLineUp(user_uuid, uuid, DLWindow)
                         })
-                    }else if (res == -3) {
+                    // }else if (res == -3) {
                         info("인증실패<br>사용자의 인증요청이 피어에 의해 거부당했습니다.")
                     }
                 }

@@ -9,9 +9,11 @@ import com.project.waiter.dto.RestaurantDTO;
 import com.project.waiter.services.GeneralService;
 import com.project.waiter.util.HttpUtil;
 import com.project.waiter.util.Messages;
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -34,9 +37,6 @@ public class mainController {
 
     @Autowired
     GeneralService generalService;
-
-    @Autowired
-    ResourceLoader resourceLoader;
 
     @GetMapping("get/restaurant/{loc1}/{loc2}")
     public List<RestaurantDTO> getRestaurant(@PathVariable("loc1") String loc1, @PathVariable("loc2") String loc2) {
@@ -63,7 +63,7 @@ public class mainController {
             if (step.equals("1")) {
                 int verifyCode = (int) Math.floor(Math.random()*1000000);
                 String verifyCodeFixed = ("000000"+String.valueOf(verifyCode)).substring(("000000"+String.valueOf(verifyCode)).length()-6, ("000000"+String.valueOf(verifyCode)).length());
-                Messages msg = new Messages(resourceLoader.getResource("classpath:secret/message.apiKey").getFile());
+                Messages msg = new Messages(new ClassPathResource("secret/message.apiKey").getInputStream());
                 String msgContent = "인증요청이 발생하였습니다 - Waiter. \n" +
                         "인증번호는 ["+verifyCodeFixed+"] 입니다.";
                 msg.send(phone, "01067820989", msgContent, "SMS");
@@ -88,7 +88,7 @@ public class mainController {
         }else {
             int verifyCode = (int) Math.floor(Math.random()*1000000);
             String verifyCodeFixed = ("000000"+String.valueOf(verifyCode)).substring(("000000"+String.valueOf(verifyCode)).length()-6, ("000000"+String.valueOf(verifyCode)).length());
-            Messages msg = new Messages(resourceLoader.getResource("classpath:secret/message.apiKey").getFile());
+            Messages msg = new Messages(new ClassPathResource("secret/message.apiKey").getInputStream());
             String msgContent = "인증요청이 발생하였습니다 - Waiter. \n" +
                     "인증번호는 ["+verifyCodeFixed+"] 입니다.";
             msg.send(phone, "01067820989", msgContent, "SMS");
@@ -128,8 +128,8 @@ public class mainController {
     @GetMapping("do/sendNotification")
     public String send(@RequestParam("uuid") String uuid, @RequestParam("r_uuid") String r_uuid, @RequestParam("data") String data) throws IOException, ParseException {
         WaitsVO user = generalService.get_waitMe(uuid, r_uuid);
-        Resource resource = resourceLoader.getResource("classpath:/secret/private_push");
-        Scanner secret = new Scanner(resource.getFile());
+        Resource resource = new ClassPathResource("secret/private_push");
+        Scanner secret = new Scanner(resource.getInputStream());
         HttpUtil sendNotification = new HttpUtil();
         JSONObject param = new JSONObject();
         JSONObject subscription = new JSONObject();

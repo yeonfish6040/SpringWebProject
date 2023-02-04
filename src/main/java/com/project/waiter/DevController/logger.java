@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Getter
 public class logger {
-    private boolean logging = true;
+    private boolean logging = false;
 
     private boolean withClass = true;
     private boolean isTest = false;

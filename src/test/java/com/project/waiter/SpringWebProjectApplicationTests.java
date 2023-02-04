@@ -10,11 +10,5 @@ import java.io.FileNotFoundException;
 @SpringBootTest
 class SpringWebProjectApplicationTests {
 
-    @Test
-    @Disabled
-    void contextLoads() throws FileNotFoundException {
-//        Messages m = new Messages();
-//        m.send("01067820989", "01067820989", "hi");
-    }
 
 }
