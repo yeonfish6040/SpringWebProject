@@ -2,11 +2,12 @@ webSocket = null;
 isMsgOn = true;
 chatList = new Object();
 select = "";
+waits = 0
 function init() {
     // check permission
     if (pass != "true") {
         let verify = new XMLHttpRequest();
-        verify.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=true&step=2&code="+code)
+        verify.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=true&step=2&code="+code+"&uuid="+uuid)
         verify.onload = (data) => {
             res = data.currentTarget.response
             if (res == "false" || rest == null) {
@@ -32,6 +33,7 @@ function init() {
             if (data[0] == "evt") {
                 console.log(data[1])
                 if (data[1] == "lineUp" || data[1] == "deLineUp") {
+                    webSocket.send("evt|waitsUpdate|"+uuid+"|"+waits)
                     updateUI()
                 }
             }else if (data[0] == "msg") {
@@ -39,7 +41,7 @@ function init() {
             }
         }
     }
-    webSocket.onopen = () => webSocket.send("connect|"+uuid)
+    webSocket.onopen = () => { updateUI(); webSocket.send("connect|"+uuid) }
 
     $("#sendMsg").on("click", (e) => {
         if ($(".chat2Send").val() == "") return
@@ -54,8 +56,6 @@ function init() {
             $(".chat2Send").val("")
         }
     })
-
-    updateUI()
 }
 
 function updateUI() {
@@ -64,6 +64,8 @@ function updateUI() {
     getBookers.onload = (e) => {
         let data = e.currentTarget.response
         data = JSON.parse(data)
+        waits = data.length
+        webSocket.send("evt|waitsUpdate|"+uuid+"|"+waits)
         $(".window .ui .table .list").html("")
         data.forEach((e) => {
             $(".window .ui .table .list").append(

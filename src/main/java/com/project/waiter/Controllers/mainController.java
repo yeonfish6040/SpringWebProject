@@ -58,7 +58,7 @@ public class mainController {
     }
 
     @GetMapping("get/verify")
-    public String verify(@RequestParam("phone") String phone, @RequestParam(value = "chain", required = false) boolean chain, @RequestParam(value = "step", required = false) String step, @RequestParam(value = "code", required = false) String code, @CookieValue(value = "sessionId", required = false) Cookie sCookie, HttpServletRequest req) throws IOException, NoSuchAlgorithmException {
+    public String verify(@RequestParam("phone") String phone, @RequestParam(value = "chain", required = false) boolean chain, @RequestParam(value = "step", required = false) String step, @RequestParam(value = "code", required = false) String code, @RequestParam(value = "uuid", required = false) String uuid, @CookieValue(value = "sessionId", required = false) Cookie sCookie, HttpServletRequest req) throws IOException, NoSuchAlgorithmException {
         if (chain == true) {
             if (step.equals("1")) {
                 int verifyCode = (int) Math.floor(Math.random()*1000000);
@@ -76,7 +76,7 @@ public class mainController {
                 try {
                     if (session.getAttribute("verify_"+phone).toString().equals(encrypt(code))) {
                         session.setAttribute("verify_"+phone, "");
-                        session.setAttribute(sCookie.getValue().toString(), System.currentTimeMillis());
+                        session.setAttribute(sCookie.getValue().toString()+"_"+uuid, System.currentTimeMillis());
                         return "true";
                     }else {
                         return "false";

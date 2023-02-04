@@ -35,7 +35,14 @@ function init() {
         data = e.data.split("|")
         if (data[0] == "msg") {
             handleMsg(JSON.parse(data[1]))
+        }else if (data[0] == "evt") {
+            if (data[1] = "waitsUpdate") {
+                $(".waits."+data[2]).text(data[3])
+            }
         }
+    }
+    ws.onopen = () => {
+        ws.send("connect|basic")
     }
 }
 
@@ -81,7 +88,7 @@ function initMap() {
                     .replace(/(\d{2})(\d{4})(\d{4})/, '$1-$2-$3')
                     .replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3')
                     .replace(/(\d{4})(\d{4})/, '$1-$2')+
-                " - "+e.waits+"명 대기중, "+Math.floor((e.c_wait_time*e.waits)/60)+"시간 "+(e.c_wait_time*e.waits)%60+"분 예상</span>"
+                " - <span class='waits "+e.uuid+"'>"+e.waits+"</span>명 대기중, "+Math.floor((e.c_wait_time*e.waits)/60)+"시간 "+(e.c_wait_time*e.waits)%60+"분 예상</span>"
             let infoWindow = new google.maps.InfoWindow({
                 content: contentString,
                 ariaLabel: e.name,

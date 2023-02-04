@@ -91,7 +91,7 @@ public class WebController {
         model.addAttribute("uuid", uuid);
         model.addAttribute("rest", generalService.get_rest(uuid, phone));
         model.addAttribute("restStr", mapper.writeValueAsString(generalService.get_rest(uuid)));
-        if (req.getSession().getAttribute(sCookie.getValue()) != null) {
+        if (req.getSession().getAttribute(sCookie.getValue()+"_"+uuid) != null) {
             if ((System.currentTimeMillis()-Long.valueOf(req.getSession().getAttribute(sCookie.getValue()).toString())) < 21600*1000) {
                 model.addAttribute("pass", true);
             }else {
