@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
-<mapper namespace="com.project.waiter.mappers.UserMapper">
+<mapper namespace="com.yeonfish.waiter.mappers.UserMapper">
 	<select id="get" resultType="userVO">
-		select * from users where `phone` like #{phone} or `uuid` like #{phone}
+		select * from SWP_users where `phone` like #{phone} or `uuid` like #{phone}
 	</select>
 	<insert id="add" parameterType="userVO">
-		insert into users(`phone`, `uuid`) VALUES(#{phone}, #{uuid})
+		insert into SWP_users(`phone`, `uuid`) VALUES(#{phone}, #{uuid})
 	</insert>
 </mapper>

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
-<mapper namespace="com.project.waiter.mappers.TimeMapper">
+<mapper namespace="com.yeonfish.waiter.mappers.TimeMapper">
 	<select id="getTime" resultType="string">
 		select UNIX_TIMESTAMP()
 	</select>

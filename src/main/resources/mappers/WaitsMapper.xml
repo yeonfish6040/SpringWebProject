@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
-<mapper namespace="com.project.waiter.mappers.WaitsMapper">
+<mapper namespace="com.yeonfish.waiter.mappers.WaitsMapper">
 	<select id="get" resultType="waitsVO">
-		select * from waits where `r_uuid` like #{r_uuid} order by waitNum asc
+		select * from SWP_waits where `r_uuid` like #{r_uuid} order by waitNum asc
 	</select>
 	<select id="getMe" parameterType="waitsVO" resultType="waitsVO">
-		select * from waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
+		select * from SWP_waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
 	</select>
 	<insert id="add" parameterType="waitsVO">
-		insert into waits(`uuid`, `r_uuid`, `waitNum`, `endpoint`, `p256dh`, `auth`) VALUES(#{uuid}, #{r_uuid}, IFNULL((select max(`waitNum`) from waits a where `r_uuid` like #{r_uuid})+1, 0	), #{endpoint}, #{p256dh}, #{auth})
+		insert into SWP_waits(`uuid`, `r_uuid`, `waitNum`, `endpoint`, `p256dh`, `auth`) VALUES(#{uuid}, #{r_uuid}, IFNULL((select max(`waitNum`) from SWP_waits a where `r_uuid` like #{r_uuid})+1, 0	), #{endpoint}, #{p256dh}, #{auth})
 	</insert>
 	<delete id="delete" parameterType="waitsVO">
-		delete from waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
+		delete from SWP_waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
 	</delete>
 </mapper>

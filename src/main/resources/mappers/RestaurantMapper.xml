@@ -2,23 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
                         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
-<mapper namespace="com.project.waiter.mappers.RestaurantMapper">
+<mapper namespace="com.yeonfish.waiter.mappers.RestaurantMapper">
 	<select id="getList" resultType="restaurantVO">
-		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2, (select count(*) from waits b where b.r_uuid=a.uuid) waits from restaurant a order by dist1 asc, dist2 asc limit ${num}
+		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2, (select count(*) from waits b where b.r_uuid=a.uuid) waits from SWP_restaurant a order by dist1 asc, dist2 asc limit ${num}
 	</select>
 	<select id="get" parameterType="String" resultType="restaurantVO">
-		select * from restaurant where `uuid` like #{uuid}
+		select * from SWP_restaurant where `uuid` like #{uuid}
 	</select>
 	<select id="get2" resultType="restaurantVO">
-		select * from restaurant where `uuid` like #{uuid} and `adminPhone` like #{phone}
+		select * from SWP_restaurant where `uuid` like #{uuid} and `adminPhone` like #{phone}
 	</select>
 	<select id="search" resultType="restaurantVO">
-		select * from restaurant where name REGEXP #{query}
+		select * from SWP_restaurant where name REGEXP #{query}
 	</select>
 	<insert id="add" parameterType="restaurantVO">
-		insert into restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, #{call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
+		insert into SWP_restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, #{call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
 	</insert>
 	<update id="cSts">
-		UPDATE restaurant SET `active` = ${type} WHERE `uuid` LIKE #{uuid}
+		UPDATE SWP_restaurant SET `active` = ${type} WHERE `uuid` LIKE #{uuid}
 	</update>
 </mapper>
