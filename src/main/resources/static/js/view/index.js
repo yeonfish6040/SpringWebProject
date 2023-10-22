@@ -30,7 +30,7 @@ function init() {
         info("내차례 알림을 받고싶으시다면,<br>알림을 허용해주시기 바랍니다.")
     }
 
-    ws = new WebSocket("wss://lyj.kr:8006")
+    ws = new WebSocket("ws://lyj.kr:8006")
     ws.onmessage = (e) => {
         data = e.data.split("|")
         if (data[0] == "msg") {
@@ -169,7 +169,7 @@ function book(e) {
                 res = data.currentTarget.responseText
                 if (res >= 0 && !isNaN(res)) {
                     info("예약번호: "+res+"<br>"+"예약에 성공하셨습니다.")
-                    ws.send("evt|"+uuid+"|lineUp")
+                    ws.send("evt|lineUp|"+uuid);
                 }else {
                     if (res == -1) {
                         info("예약실패<br>알 수 없는 오류로 인하야 예약에 실패하였습니다.")
@@ -179,7 +179,7 @@ function book(e) {
                             $("#deLineUp_"+uuid).attr("disabled", true);
                             deLineUp(user_uuid, uuid, DLWindow)
                         })
-                    // }else if (res == -3) {
+                    }else if (res == -3) {
                         info("인증실패<br>사용자의 인증요청이 피어에 의해 거부당했습니다.")
                     }
                 }
@@ -232,7 +232,7 @@ function deLineUp(uuid, r_uuid, deLineUpWindow) {
     deLineUpAct.open("GET", "/do/deLineUp?uuid="+uuid+"&r_uuid="+r_uuid)
     deLineUpAct.onload = (res) => {
         info(res.currentTarget.responseText == "true" ? "예약이 취소되었습니다!" : "예약취소에 실패하였습니다.")
-        ws.send("evt|"+r_uuid+"|deLineUp")
+        ws.send("evt|deLineUp|"+r_uuid);
     }
     deLineUpAct.send()
 }
