@@ -1,4 +1,4 @@
-function info(e, param={time: 4000, manual: false}) {
+function info(e, param={time: 4000, manual: false}, callback=()=>{}) {
 
     let time = param.time
     let manual = param.manual
@@ -8,21 +8,22 @@ function info(e, param={time: 4000, manual: false}) {
     let temp = $("."+rand)
     temp.hide()
     temp.slideDown(300, () => {
-        if (!manual) {
-            setTimeout(() => {
-                temp.slideUp(300, () => {
-                    temp.remove()
-                })
-            }, time)
-        }
+        setInterval(() => {
+            temp.animate( { scrollTop : temp.scrollTop()+100 } )
+        }, 1000)
+        setTimeout(() => {
+            temp.slideUp(300, () => {
+                temp.remove()
+                callback()
+            })
+        }, time)
     });
    if (manual) {
        return () => {
-           setTimeout(() => {
-               temp.slideUp(300, () => {
-                   temp.remove()
-               })
-           }, time)
+           temp.slideUp(300, () => {
+               temp.remove()
+               callback()
+           })
        }
    }
 }

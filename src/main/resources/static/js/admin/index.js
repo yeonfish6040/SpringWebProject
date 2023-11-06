@@ -22,7 +22,7 @@ function init() {
 
     // websocket
     let isConnected = false
-    webSocket = new WebSocket("wss://lyj.kr:8005")
+    webSocket = new WebSocket("wss://lyj.kr:8006")
     webSocket.onmessage = (e) => {
         if (!isConnected) {
             console.log(e.data)

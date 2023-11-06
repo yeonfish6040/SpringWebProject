@@ -10,8 +10,11 @@
 		select * from SWP_waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
 	</select>
 	<insert id="add" parameterType="waitsVO">
-		insert into SWP_waits(`uuid`, `r_uuid`, `waitNum`, `endpoint`, `p256dh`, `auth`) VALUES(#{uuid}, #{r_uuid}, IFNULL((select max(`waitNum`) from SWP_waits a where `r_uuid` like #{r_uuid})+1, 0	), #{endpoint}, #{p256dh}, #{auth})
+		insert into SWP_waits(`uuid`, `r_uuid`, `waitNum`, `endpoint`, `p256dh`, `auth`) VALUES(#{uuid}, #{r_uuid}, IFNULL((select max(`waitNum`) from SWP_waits a where `r_uuid` like #{r_uuid})+1, 1	), #{endpoint}, #{p256dh}, #{auth})
 	</insert>
+	<update id="update" parameterType="waitsVO">
+		update SWP_restaurant SET `waits` = (SELECT count(*) FROM SWP_waits WHERE `r_uuid` like #{r_uuid} LIMIT 1) WHERE `uuid` like #{r_uuid}
+	</update>
 	<delete id="delete" parameterType="waitsVO">
 		delete from SWP_waits where `uuid` like #{uuid} and `r_uuid` like #{r_uuid}
 	</delete>

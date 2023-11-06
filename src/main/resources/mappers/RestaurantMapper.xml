@@ -4,7 +4,9 @@
 <!-- 연결할 인터페이스 경로를 namespace에 작성 -->
 <mapper namespace="com.yeonfish.waiter.mappers.RestaurantMapper">
 	<select id="getList" resultType="restaurantVO">
-		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2, (select count(*) from SWP_waits b where b.r_uuid=a.uuid) waits from SWP_restaurant a order by dist1 asc, dist2 asc limit ${num}
+		select distinct a.*, abs(a.location1 - ${loc1}) dist1, abs(a.location2 - ${loc2}) dist2, (select count(*) from SWP_waits b where b.r_uuid=a.uuid) waits
+		from SWP_restaurant a
+		order by dist1 asc, dist2 asc limit ${num}
 	</select>
 	<select id="get" parameterType="String" resultType="restaurantVO">
 		select * from SWP_restaurant where `uuid` like #{uuid}
@@ -16,7 +18,7 @@
 		select * from SWP_restaurant where name REGEXP #{query}
 	</select>
 	<insert id="add" parameterType="restaurantVO">
-		insert into SWP_restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, #{call}, #{info}, ${waits}, ${c_wait_time}, #{pictures})
+		insert into SWP_restaurant(`uuid`, `name`, `location1`, `location2`, `call`, `info`, `waits`, `c_wait_time`, `pictures`, `adminPhone`) VALUES(#{uuid}, #{name}, ${location1}, ${location2}, #{call}, #{info}, ${waits}, ${c_wait_time}, #{pictures}, #{adminPhone})
 	</insert>
 	<update id="cSts">
 		UPDATE SWP_restaurant SET `active` = ${type} WHERE `uuid` LIKE #{uuid}

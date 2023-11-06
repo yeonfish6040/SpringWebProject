@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @Controller
@@ -44,6 +45,11 @@ public class WebController {
         model.addAttribute("loc1", loc1);
         model.addAttribute("loc2", loc2);
         model.addAttribute("msg", "");
+
+        HttpSession session = req.getSession();
+        if (session.getAttribute("verified" + cookie.getValue()) == null)
+            session.setAttribute("verified" + cookie.getValue(), false);
+
 
         return "view";
     }
@@ -102,19 +108,20 @@ public class WebController {
     }
 
     @GetMapping("")
-    public String main(@CookieValue(value = "sessionId", required = false) Cookie cookie, HttpServletResponse res) {
-        addCookie(cookie, res);
+    public String main(@CookieValue(value = "sessionId", required = false) Cookie cookie, HttpServletRequest req, HttpServletResponse res) {
+        addCookie(cookie, req, res);
+
         return "main";
     }
 
-    private String addCookie(Cookie c, HttpServletResponse res) {
-        String sessionId;
+    private boolean addCookie(Cookie c, HttpServletRequest req, HttpServletResponse res) {
         if (c == null) {
-            sessionId = UUID.generate();
-            res.addCookie(new Cookie("sessionId", sessionId));
+            String uuid = UUID.generate();
+            res.addCookie(new Cookie("sessionId", uuid));
+            req.getSession().setAttribute("verified" + uuid, false);
+            return false;
         }else {
-            sessionId = c.getValue();
+            return true;
         }
-        return sessionId;
     }
 }

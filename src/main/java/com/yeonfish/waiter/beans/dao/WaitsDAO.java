@@ -20,6 +20,9 @@ public class WaitsDAO {
     public boolean register(WaitsVO waitsVO) {
         return waitsMapper.add(waitsVO) > 0;
     }
+    public boolean update(WaitsVO waitsVO) {
+        return waitsMapper.update(waitsVO) > 0;
+    }
 
     public List<WaitsVO> getList(String r_uuid) {
         return waitsMapper.get(r_uuid);

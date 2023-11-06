@@ -1,10 +1,11 @@
 verifing = false
 adminClick = {}
 ws = null
+target = ""
 chatList = []
+infoWindows = []
 
 function init() {
-    info("로딩 완료!")
     if (feedback != "") {
         info(feedback)
     }
@@ -12,12 +13,13 @@ function init() {
     $(document).on("click", function (e) {
         if (e.currentTarget.activeElement.className.includes("book")) {
             book(e)
+        console.log(e)
         }
-    })
-    $(document).on("click", function (e) {
         if (e.currentTarget.activeElement.className.includes("ask")) {
             openMsg(e)
         }
+
+
     })
     window.addEventListener("keydown", function(event) {
         if (event.key == "Escape"){
@@ -27,7 +29,7 @@ function init() {
 
     if (Notification.permission !== 'granted'){
         Notification.requestPermission();
-        info("내차례 알림을 받고싶으시다면,<br>알림을 허용해주시기 바랍니다.")
+        info("내차례 알림을 받고싶으시려면,<br>알림을 허용해주시기 바랍니다.")
     }
 
     ws = new WebSocket("wss://lyj.kr:8006")
@@ -44,6 +46,11 @@ function init() {
     ws.onopen = () => {
         ws.send("connect|basic")
     }
+
+
+    setTimeout(() => {
+        $(".search").focus()
+    },1000)
 }
 
 function initMap() {
@@ -76,8 +83,8 @@ function initMap() {
         getAddr(lat, lng, (data) => {
             data = JSON.parse(data.currentTarget.response)
             let addr = data.results[4].formatted_address
-            contentString = "<span>" +
-                "<span class='h6 restTitle' id='rest_"+e.uuid+"'>" + e.name+"</span> - " +
+            contentString = "<span class='rest_info'>" +
+                "<span class='h6 restTitle' id='rest_"+e.uuid+"'>" + e.name+"</span>&nbsp; &nbsp; &nbsp;&nbsp;" +
                 "<span class='btn-group title_btn' role='group' "+(e.active != 2 ? (e.active == 1 ? "title='쉬는중...'" : "title='영업종료'") : "")+">" +
                 "<button class='book btn btn-sm btn-outline-secondary' id='"+e.uuid+"' "+((e.active != 2) ? "disabled" : "")+">예약하기</button>" +
                 "<button class='ask btn btn-sm btn-outline-secondary' id='ask_"+e.uuid+"' "+((e.active != 2) ? "disabled" : "")+">문의하기</button>" +
@@ -89,10 +96,19 @@ function initMap() {
                     .replace(/(\d{2})(\d{3})(\d{4})/, '$1-$2-$3')
                     .replace(/(\d{4})(\d{4})/, '$1-$2')+
                 " - <span class='waits "+e.uuid+"'>"+e.waits+"</span>명 대기중, "+Math.floor((e.c_wait_time*e.waits)/60)+"시간 "+(e.c_wait_time*e.waits)%60+"분 예상</span>"
-            let infoWindow = new google.maps.InfoWindow({
-                content: contentString,
-                ariaLabel: e.name,
-            });
+            let infoWindow
+            if (window.innerWidth < 992) {
+                infoWindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    ariaLabel: e.name,
+                });
+            }else {
+                infoWindow = new google.maps.InfoWindow({
+                    content: contentString,
+                    ariaLabel: e.name,
+                });
+            }
+
             if (e.uuid == uuid) {
                 infoWindow.open({
                     anchor: marker,
@@ -119,10 +135,17 @@ function initMap() {
                     }
                 }
             })
+            infoWindows.push(infoWindow)
             marker.addListener("click", () => {
-                infoWindow.open({
-                    anchor: marker,
+                let map = infoWindow.getMap();
+                infoWindows.forEach((e) => {
+                    e.close()
                 })
+                if (!(map !== null && typeof map !== "undefined"))
+                    infoWindow.open({ anchor: marker })
+                else
+                    infoWindow.close()
+                setTimeout(() => $(".search").focus(), 100)
                 setTimeout(() => {
                     $(".restTitle").on("click", function (evt) {
                         evt_uuid = evt.currentTarget.id.replace("rest_", "")
@@ -148,6 +171,7 @@ function initMap() {
             })
         })
     })
+
 }
 
 function search() {
@@ -168,19 +192,30 @@ function book(e) {
             bookRun.onload = (data) => {
                 res = data.currentTarget.responseText
                 if (res >= 0 && !isNaN(res)) {
-                    info("예약번호: "+res+"<br>"+"예약에 성공하셨습니다.")
-                    ws.send("evt|"+uuid+"|lineUp")
+                    verifing = false
+                    info("예약번호: "+res)
+                    info("예약에 성공하셨습니다.")
+                    ws.send("evt|lineUp|"+uuid);
                 }else {
                     if (res == -1) {
                         info("예약실패<br>알 수 없는 오류로 인하야 예약에 실패하였습니다.")
+                        verifing = false
                     }else if (res == -2) {
-                        let DLWindow = info("예약실패<br>이미 예약이 되어있습니다. <button id='deLineUp_"+uuid+"' class='btn btn-outline-success'>예약취소</button>", { manual: true })
+                        let noticeDuplicate = info("이미 예약이 되어있습니다.", { manual: true, time: 20000 })
+                        let DLWindow = info("<div class='input-group form'><button id='deLineUp_"+uuid+"' class='btn btn-outline-success'>예약취소</button><button id='cancel_canceling' class='btn btn-outline-danger'>닫기</button></div>", { manual: true, time: 20000})
                         $("#deLineUp_"+uuid).on("click", function() {
+                            noticeDuplicate()
                             $("#deLineUp_"+uuid).attr("disabled", true);
                             deLineUp(user_uuid, uuid, DLWindow)
                         })
-                    // }else if (res == -3) {
+                        $("#cancel_canceling").on("click", function() {
+                            verifing = false
+                            noticeDuplicate()
+                            DLWindow()
+                        })
+                    }else if (res == -3) {
                         info("인증실패<br>사용자의 인증요청이 피어에 의해 거부당했습니다.")
+                        verifing = false
                     }
                 }
             }
@@ -196,7 +231,7 @@ function verifyAdmin(e) {
     }
     verifing = true
     let uuid = e;
-    let tel = info("<input type='tel' class='form-control phone' id='phone' placeholder='사용자의 휴대폰번호'><button id='phone_submit' class='btn btn-outline-info'>접속</button>", { manual: true })
+    let tel = info("<input type='tel' class='form-control phone' id='phone' placeholder='사용자의 휴대폰번호'><button id='phone_submit' class='btn btn-outline-info'>접속</button>", { manual: true, time: 10000000 })
     $("#phone_submit").on("click", () => {
         if (!isNaN($("#phone").val()) && $("#phone").val() != "") {
             $("#phone_submit").attr("disabled", true);
@@ -215,7 +250,7 @@ function verifyAdmin(e) {
             }
             getVerifyCode.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=true&step=1")
             getVerifyCode.send()
-            let verify = info("<input type='password' class='form-control verify' id='verify' placeholder='인증번호'><button id='verify_submit' class='btn btn-outline-success'>인증</button>", { manual: true });
+            let verify = info("<input type='password' class='form-control verify' id='verify' placeholder='인증번호'><button id='verify_submit' class='btn btn-outline-success'>인증</button>", { manual: true, time: 10000000 });
             $("#verify_submit").on("click", () => {
                 location.href = "/admin?uuid="+this.uuid+"&code="+$("#verify").val()+"&phone="+phone+"&zeroCount="+zeroCount
             })
@@ -231,17 +266,29 @@ function deLineUp(uuid, r_uuid, deLineUpWindow) {
     let deLineUpAct = new XMLHttpRequest();
     deLineUpAct.open("GET", "/do/deLineUp?uuid="+uuid+"&r_uuid="+r_uuid)
     deLineUpAct.onload = (res) => {
-        info(res.currentTarget.responseText == "true" ? "예약이 취소되었습니다!" : "예약취소에 실패하였습니다.")
-        ws.send("evt|"+r_uuid+"|deLineUp")
+        info(res.currentTarget.responseText == "true" ? "예약이 취소되었습니다!" : "예약취소에 실패하였습니다.", { time: 1000 })
+        ws.send("evt|deLineUp|"+r_uuid);
+        verifing = false
     }
     deLineUpAct.send()
 }
 
 function openMsg(e) {
     let uuid = e.currentTarget.activeElement.id.replace("ask_", "")
+    target = uuid
+    if (!Array.isArray(chatList))
+        chatList = []
     verify((phone) => {
+        verifing = false
         ws.send("connect|"+phone)
-        $(".chat").fadeIn()
+        $('.chatText').innerHTML = ""
+        refreshMsgGroup()
+        $(".chat").fadeIn(300, () => {
+            $(".chat_close").on("click", function (e) {
+                $(".chat").fadeOut()
+            });
+        })
+
         $("#sendMsg").on("click", (e) => {
             if ($(".chat2Send").val() == "") return
             sendMsg(uuid, $(".chat2Send").val(), phone)
@@ -276,44 +323,52 @@ function sendMsg(u, s, p) {
 
 function verify(callback) {
     let isOk = false
-    if (!verifing) {
-        verifing = true
-        let tel = info("<input type='tel' class='form-control phone' id='phone' placeholder='사용자의 휴대폰번호'><button id='phone_submit' class='btn btn-outline-info'>전송</button>", { manual: true })
-        $("#phone_submit").on("click", () => {
-            if (!isNaN($("#phone").val()) && $("#phone").val() != "") {
-                $("#phone_submit").attr("disabled", true);
-                let phone = $("#phone").val();
-                tel()
-                let zeroCount = 0
-                for (e in phone.split("")) {
-                    if (e == 0) {
-                        zeroCount += 1
-                    }else {
-                        break
+
+    // is already verified
+    let isVerified = new XMLHttpRequest();
+    isVerified.open("GET", "/get/verified");
+    isVerified.onload = (data) => {
+        if (!verifing) {
+            verifing = true
+            if (data.currentTarget.responseText === "true")
+                return callback($.cookie("phone"))
+            let tel = info("<div class='form input-group'><input type='tel' class='form-control phone' id='phone' placeholder='사용자의 휴대폰번호'><button id='phone_submit' class='form-control btn btn-outline-info'>전송</button></div>", { manual: true, time: 10000000 })
+            $("#phone_submit").on("click", () => {
+                if (!isNaN($("#phone").val()) && $("#phone").val() != "") {
+                    $("#phone_submit").attr("disabled", true);
+                    let phone = $("#phone").val();
+                    tel()
+                    let zeroCount = 0
+                    for (e in phone.split("")) {
+                        if (e == 0) {
+                            zeroCount += 1
+                        }else {
+                            break
+                        }
                     }
+                    let getVerifyCode = new XMLHttpRequest();
+                    let verifyCode
+                    getVerifyCode.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=false")
+                    getVerifyCode.onload = (data) => verifyCode = data.currentTarget.responseText;
+                    getVerifyCode.send()
+                    let verify = info("<div class='form input-group'><input type='password' class='form-control verify' id='verify' placeholder='인증번호'><button id='verify_submit' class='form-control btn btn-outline-success'>인증</button></div>", { manual: true, time: 10000000 });
+                    $("#verify_submit").on("click", () => {
+                        if (SHA256($("#verify").val()) == verifyCode) {
+                            $("#verify_submit").attr("disabled", true);
+                            verify()
+                            $.cookie("phone", phone)
+                            callback(phone)
+                        }else {
+                            info("인증번호가 매치되지 않습니다.")
+                        }
+                    })
+                }else {
+                    info("형식이 맞지 않습니다.")
                 }
-                let getVerifyCode = new XMLHttpRequest();
-                let verifyCode
-                getVerifyCode.open("GET", "/get/verify?phone="+phone+"&zeroCount="+zeroCount+"&chain=false")
-                getVerifyCode.onload = (data) => verifyCode = data.currentTarget.responseText;
-                getVerifyCode.send()
-                let verify = info("<input type='password' class='form-control verify' id='verify' placeholder='인증번호'><button id='verify_submit' class='btn btn-outline-success'>인증</button>", { manual: true });
-                $("#verify_submit").on("click", () => {
-                    if (SHA256($("#verify").val()) == verifyCode) {
-                        $("#verify_submit").attr("disabled", true);
-                        verify()
-                        info("인증 성공.")
-                        verifing = false;
-                        callback(phone)
-                    }else {
-                        info("인증번호가 매치되지 않습니다.")
-                    }
-                })
-            }else {
-                info("형식이 맞지 않습니다.")
-            }
-        })
+            })
+        }
     }
+    isVerified.send();
 }
 
 function handleMsg(s) {
@@ -334,4 +389,19 @@ function refreshMsgGroup() {
             document.getElementById("chatLine_"+i).scrollIntoView({ behavior: 'smooth' })
         i++
     })
+}
+
+function getMsg(targetMsg) {
+    let msg = localStorage.getItem(targetMsg);
+    msg = msg.split("|")
+    let arrayTmp = []
+    msg.forEach((e) => {
+        arrayTmp.push(e.split(","))
+    })
+    chatList = arrayTmp
+}
+
+function setMsg(targetMsg) {
+    let msg = chatList.join("|");
+    localStorage.setItem(targetMsg, msg)
 }

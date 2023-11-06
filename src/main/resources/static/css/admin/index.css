@@ -54,7 +54,13 @@
 
     overflow: scroll;
 
+    font-size: 2em;
+
     /*border: 1px solid black;*/
+}
+
+.btn {
+    font-size: 0.8em !important;
 }
 
 .console {
@@ -66,6 +72,8 @@
     width: 100%;
 
     border-top: 2px solid lightgray;
+
+    font-size: 2em;
 
     border-radius: 10px;
 }

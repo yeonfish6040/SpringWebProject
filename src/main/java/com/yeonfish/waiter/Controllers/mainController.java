@@ -52,7 +52,10 @@ public class mainController {
     }
 
     @GetMapping("get/verify")
-    public String verify(@RequestParam("phone") String phone, @RequestParam(value = "chain", required = false) boolean chain, @RequestParam(value = "step", required = false) String step, @RequestParam(value = "code", required = false) String code, @RequestParam(value = "uuid", required = false) String uuid, @CookieValue(value = "sessionId", required = false) Cookie sCookie, HttpServletRequest req) throws IOException, NoSuchAlgorithmException {
+    public String verify(
+            @RequestParam("phone") String phone, @RequestParam(value = "chain", required = false) boolean chain,
+            @RequestParam(value = "step", required = false) String step, @RequestParam(value = "code", required = false) String code, @RequestParam(value = "uuid", required = false) String uuid,
+            @CookieValue(value = "sessionId", required = false) Cookie sCookie, HttpServletRequest req) throws IOException, NoSuchAlgorithmException {
         if (chain == true) {
             if (step.equals("1")) {
                 int verifyCode = (int) Math.floor(Math.random()*1000000);
@@ -108,12 +111,23 @@ public class mainController {
         return result.length() == 1 ? "[]" : result.substring(0, result.length()-1)+"]";
     }
 
+    @GetMapping("get/verified")
+    public boolean isVerified(@CookieValue(value = "sessionId") Cookie cookie, HttpServletRequest req) {
+        HttpSession session = req.getSession();
+        return (boolean) (session.getAttribute("verified" + cookie.getValue()));
+    }
+
     @GetMapping("do/book")
-    public String book(WaitsVO waitsVO) {
+    public String book(@CookieValue(value = "sessionId") Cookie cookie, WaitsVO waitsVO, HttpServletRequest req) {
         log.info(waitsVO);
         int num = generalService.lineUp(waitsVO);
+
+        HttpSession session = req.getSession();
+        session.setAttribute("verified" + cookie.getValue(), true);
+
         return String.valueOf(num);
     }
+
 
     @GetMapping("do/deLineUp")
     public boolean deLineUp(@RequestParam("uuid") String uuid, @RequestParam("r_uuid") String r_uuid) {

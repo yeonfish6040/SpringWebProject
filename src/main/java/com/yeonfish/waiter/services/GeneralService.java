@@ -70,6 +70,7 @@ public class GeneralService implements GeneralServiceInter {
         if (waitsDAO.get(waitsVO).getR_uuid().equals(waitsVO.getR_uuid()))
             return -2;
         if (waitsDAO.register(waitsVO)) {
+            waitsDAO.update(waitsVO);
             return waitsDAO.get(waitsVO).getWaitNum();
         }else {
             return -1;

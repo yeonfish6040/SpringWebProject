@@ -2,6 +2,7 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Restaurants</title>
     <!--  jQuery  -->
     <script src="/js/jquery.min.js"></script>
@@ -17,10 +18,8 @@
         rest = [(${rest})]
         uuid = "[[${uuid}]]"
         feedback = "[(${msg})]"
-        document.onreadystatechange = (e) => {
-            if (document.readyState == "complete") {
-                init()
-            }
+        window.onload = () => {
+            init()
         }
     </script>
     <script src="/js/view/index.js"></script>
@@ -34,14 +33,14 @@
 </head>
 <body>
     <div class="form input-group">
-        <input type="text" class="search form-control" placeholder="검색" aria-describedby="searchRun">
+        <input type="text" class="search form-control" placeholder="검색할 내용을 입력하여주세요" aria-describedby="searchRun">
         <button type="button" id="searchRun" class="btn btn-secondary">검색</button>
     </div>
     <div class="info"></div>
-    <div id="map" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px"></div>
+    <div id="map" style="position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: -1"></div>
     <div class="chat">
         <div class="field">
-            <div class="title">문의</div>
+            <div class="title"><span>&nbsp;</span>문의 <img class="chat_close" src="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M19%206.41L17.59%205%2012%2010.59%206.41%205%205%206.41%2010.59%2012%205%2017.59%206.41%2019%2012%2013.41%2017.59%2019%2019%2017.59%2013.41%2012z%22/%3E%3Cpath%20d%3D%22M0%200h24v24H0z%22%20fill%3D%22none%22/%3E%3C/svg%3E" alt=""></div>
             <div class="chatText"></div>
             <div class="form input-group chatInputField">
                 <input type="text" class="chat2Send form-control" placeholder="메시지 내용" aria-describedby="searchRun">

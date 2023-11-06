@@ -56,3 +56,49 @@
 .chatInputField {
     height: 10%;
 }
+
+.chat .field .title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat_close {
+    position: relative;
+    right: 0;
+
+
+    width: 30px;
+    height: 30px;
+}
+
+@media only screen and (max-width: 991px){
+    .form .search, #searchRun {
+        height: 60px;
+        font-size: 1em !important;
+    }
+
+    .form #searchRun {
+        width: 15%;
+    }
+
+    .rest_info {
+        font-size: 1rem;
+    }
+    .restTitle {
+        font-size: 2rem !important;
+    }
+    .rest_info .btn {
+        height: 40px;
+        width: 120px;
+
+        font-size: 1rem;
+    }
+
+    .phone, #phone_submit, #verify_submit {
+        height: 60px;
+    }
+    #phone_submit, #verify_submit {
+        width: 40px;
+    }
+
+}
