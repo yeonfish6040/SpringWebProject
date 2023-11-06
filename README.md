@@ -1,6 +1,7 @@
 # Spring Boot Web Project - Waiter
 ### 식당 줄서기 프로그램
 
+Running on jdk 17
 
 ## 기술 스택
 - Java
