@@ -155,6 +155,9 @@ public class mainController {
         param.put("subscription", subscription);
         param.put("applicationKeys", applicationKeys);
         log.info(param.toString());
+
+        Messages msg = new Messages(new ClassPathResource("secret/message.apiKey").getInputStream());
+        msg.send(generalService.get_user(user.getUuid()).getPhone(), "01067820989", data, "SMS");
         return sendNotification.callApi("https://web-push-codelab.glitch.me/api/send-push-msg", param);
     }
 
